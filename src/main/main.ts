@@ -26,6 +26,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule.bootstrap({ config }), {
     logger
   });
+  app.setGlobalPrefix("api/v2");
 
   app.enableVersioning({
     type: VersioningType.URI,

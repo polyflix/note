@@ -1,5 +1,6 @@
 server:
   port: 5000
+  health: http://localhost:5000/todos
 
 telemetry:
   port: 4317

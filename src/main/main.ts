@@ -26,7 +26,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule.bootstrap({ config }), {
     logger
   });
-  app.setGlobalPrefix("api/v2");
 
   app.enableVersioning({
     type: VersioningType.URI,
@@ -39,6 +38,8 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   const port = config["server"]["port"] || 3000;
+
+  await app.startAllMicroservices();
 
   await app.listen(port, () => {
     logger.log(`Server listening on port ${port}`, "NestApplication");

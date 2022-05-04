@@ -3,11 +3,10 @@ import { Document } from "mongoose";
 
 export type NoteDocument = NoteEntity & Document;
 
-@Schema()
+@Schema({
+  timestamps: true
+})
 export class NoteEntity {
-  @Prop()
-  videoId: string;
-
   @Prop()
   userId: string;
 

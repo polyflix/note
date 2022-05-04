@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateNoteDto } from "src/main/application/dto/note-save.dto";
+import { CreateNoteDto } from "../../application/dto/note-save.dto";
 import { NoteRepository } from "../adapters/repositories/note.repository";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 
@@ -12,7 +12,7 @@ export class NoteService {
       Some: (note) => note,
       None: () => {
         throw new NotFoundException(
-          `Todo not found from user with id ${userId} in video with id ${videoId}`
+          `Note not found from user with id ${userId} in video with id ${videoId}`
         );
       }
     });

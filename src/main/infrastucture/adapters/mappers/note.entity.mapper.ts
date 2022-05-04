@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { AbstractMapper } from "src/main/core/helpers/abstract.mapper";
-import { Note } from "src/main/domain/models/note.model";
+import { AbstractMapper } from "../../../core/helpers/abstract.mapper";
+import { Note } from "../../../domain/models/note.model";
 import { NoteEntity } from "../repositories/entities/note.entity";
 
 @Injectable()
@@ -12,8 +12,8 @@ export class NoteEntityMapper extends AbstractMapper<NoteEntity, Note> {
   }
 
   entityToApi(entity: NoteEntity): Note {
-    const video = new Note();
-    Object.assign(video, entity);
-    return video;
+    const note = new Note();
+    Object.assign(note, entity);
+    return note;
   }
 }

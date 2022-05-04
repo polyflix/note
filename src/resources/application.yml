@@ -13,3 +13,6 @@ kafka:
   consumer:
     groupId: todo-consumer
     allowAutoTopicCreation: true
+
+database:
+  uri: mongodb://root:root@localhost/note

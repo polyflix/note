@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Put } from "@nestjs/common";
 import { CreateNoteDto } from "../../application/dto/note-save.dto";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 import { NoteService } from "../service/note.service";
@@ -7,16 +7,16 @@ import { NoteService } from "../service/note.service";
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
-  @Get()
-  async find(
-    @Query("userId") userId: string,
-    @Query("videoId") videoId: string
-  ): Promise<NoteEntity> {
-    return this.noteService.findOne(userId, videoId);
+  @Get(":id")
+  async find(@Param("id") id: string): Promise<NoteEntity> {
+    return this.noteService.findOne(id);
   }
 
-  @Put()
-  async save(@Body() createNoteDto: CreateNoteDto): Promise<NoteEntity> {
-    return this.noteService.save(createNoteDto);
+  @Put(":id?")
+  async save(
+    @Body() createNoteDto: CreateNoteDto,
+    @Param("id") id: string
+  ): Promise<NoteEntity> {
+    return this.noteService.save(id, createNoteDto);
   }
 }

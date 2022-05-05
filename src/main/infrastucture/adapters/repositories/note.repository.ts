@@ -14,23 +14,29 @@ export class NoteRepository {
     private readonly noteModel: Model<NoteDocument>
   ) {}
 
-  async findOne(userId: string, videoId: string): Promise<Option<NoteEntity>> {
-    this.logger.log(
-      `Retrieving note from user with id ${userId} in video with id ${videoId}`
-    );
-    return Option.fromNullable<NoteEntity>(
-      await this.noteModel.findOne({ userId, videoId }).exec()
-    );
+  async findOne(id: string): Promise<Option<NoteEntity>> {
+    this.logger.log(`Retrieving note with id ${id}`);
+    try {
+      return Option.fromNullable<NoteEntity>(
+        await this.noteModel.findById(id).exec()
+      );
+    } catch (e) {
+      return Option.None();
+    }
   }
 
-  async save(createNoteDto: CreateNoteDto): Promise<Result<NoteEntity, Error>> {
+  async save(
+    id: string,
+    createNoteDto: CreateNoteDto
+  ): Promise<Result<NoteEntity, Error>> {
+    // const note = await this.findOne(id);
     return Result.fromExecution(() => {
       this.logger.log(
-        `Creating/Updating from user with id ${createNoteDto.userId} in video with id ${createNoteDto.videoId} with content : ${createNoteDto.content}`
+        `Creating/Updating note with id ${id} with content : ${createNoteDto.content}`
       );
-      const createdNote = new this.noteModel(createNoteDto);
-      createdNote.save();
-      return createdNote;
+      const note = new this.noteModel(createNoteDto);
+      note.save();
+      return note;
     });
   }
 }

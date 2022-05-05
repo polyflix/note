@@ -7,19 +7,17 @@ import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 export class NoteService {
   constructor(private readonly noteRepository: NoteRepository) {}
 
-  async findOne(userId: string, videoId: string): Promise<NoteEntity> {
-    return (await this.noteRepository.findOne(userId, videoId)).match({
+  async findOne(id: string): Promise<NoteEntity> {
+    return (await this.noteRepository.findOne(id)).match({
       Some: (note) => note,
       None: () => {
-        throw new NotFoundException(
-          `Note not found from user with id ${userId} in video with id ${videoId}`
-        );
+        throw new NotFoundException(`Note not found with id ${id}`);
       }
     });
   }
 
-  async save(createNoteDto: CreateNoteDto): Promise<NoteEntity> {
-    return (await this.noteRepository.save(createNoteDto)).match({
+  async save(id: string, createNoteDto: CreateNoteDto): Promise<NoteEntity> {
+    return (await this.noteRepository.save(id, createNoteDto)).match({
       Ok: (note) => note,
       Error: (error) => {
         throw error;

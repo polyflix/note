@@ -1,36 +1,16 @@
-import { Controller, Get, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Transport } from "@nestjs/microservices";
-import {
-  HealthCheck,
-  HealthCheckService,
-  HttpHealthIndicator,
-  MicroserviceHealthIndicator
-} from "@nestjs/terminus";
-
+import { Controller, Get } from "@nestjs/common";
+import { HealthCheckService, HealthCheck } from "@nestjs/terminus";
 /**
  * Export service readiness/liveness
  * More info: https://docs.nestjs.com/recipes/terminus
  */
 @Controller("health")
 export class HealthController {
-  private readonly logger = new Logger(HealthController.name);
-
-  constructor(
-    private health: HealthCheckService,
-    private httpIndicator: HttpHealthIndicator,
-    private configService: ConfigService
-  ) {}
+  constructor(private health: HealthCheckService) {}
 
   @Get()
   @HealthCheck()
   check() {
-    this.logger.log(`Check my service health`);
-    const serviceEndpoint: string =
-      this.configService.get<string>("server.health");
-
-    return this.health.check([
-      () => this.httpIndicator.pingCheck("myService", serviceEndpoint)
-    ]);
+    return this.health.check([]);
   }
 }

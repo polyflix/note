@@ -15,4 +15,5 @@ kafka:
     allowAutoTopicCreation: true
 
 database:
-  uri: mongodb://root:root@localhost/note
+  mongo:
+    uri: mongodb://root:root@localhost/note

@@ -22,7 +22,7 @@ import { NoteService } from "./service/note.service";
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>("database.uri")
+        uri: configService.get<string>("database.mongo.uri")
       }),
       inject: [ConfigService]
     })

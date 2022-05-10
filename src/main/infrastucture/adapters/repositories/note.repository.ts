@@ -2,11 +2,11 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Option, Result } from "@swan-io/boxed";
 import { Model } from "mongoose";
-import { CreateNoteDto } from "../../../application/dto/note-save.dto";
+import { CreateNoteDto } from "../../../application/dto/create-note.dto";
 import { NoteEntity, NoteDocument } from "./entities/note.entity";
 
 @Injectable()
-export class NoteRepository {
+export class NoteRepository implements NoteRepository {
   private readonly logger = new Logger(NoteRepository.name);
 
   constructor(
@@ -21,6 +21,7 @@ export class NoteRepository {
         await this.noteModel.findById(id).exec()
       );
     } catch (e) {
+      this.logger.error(e);
       return Option.None();
     }
   }
@@ -31,9 +32,7 @@ export class NoteRepository {
   ): Promise<Result<NoteEntity, Error>> {
     // const note = await this.findOne(id);
     return Result.fromExecution(() => {
-      this.logger.log(
-        `Creating/Updating note with id ${id} with content : ${createNoteDto.content}`
-      );
+      this.logger.log(`Creating/Updating note with id : ${id}`);
       const note = new this.noteModel(createNoteDto);
       note.save();
       return note;

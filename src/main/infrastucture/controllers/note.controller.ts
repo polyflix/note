@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Put } from "@nestjs/common";
-import { CreateNoteDto } from "../../application/dto/note-save.dto";
+import { CreateNoteDto } from "../../application/dto/create-note.dto";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 import { NoteService } from "../service/note.service";
 
-@Controller("note")
+@Controller("notes")
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 

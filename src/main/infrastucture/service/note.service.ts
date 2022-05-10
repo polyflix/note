@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateNoteDto } from "../../application/dto/note-save.dto";
+import { CreateNoteDto } from "../../application/dto/create-note.dto";
 import { NoteRepository } from "../adapters/repositories/note.repository";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 

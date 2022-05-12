@@ -6,7 +6,7 @@ import { NoteEntity } from "../repositories/entities/note.entity";
 @Injectable()
 export class VideoApiMapper extends AbstractMapper<Note, NoteEntity> {
   apiToEntity(apiModel: NoteEntity): Note {
-    const entity = new Note();
+    const entity = Note.create(apiModel);
     Object.assign(entity, apiModel);
     return entity;
   }

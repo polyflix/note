@@ -11,6 +11,9 @@ export class NoteEntity {
   userId: string;
 
   @Prop()
+  videoId: string;
+
+  @Prop()
   content: string;
 }
 

@@ -6,5 +6,9 @@ export class CreateNoteDto {
   userId: string;
 
   @IsString()
+  @IsNotEmpty()
+  videoId: string;
+
+  @IsString()
   content: string;
 }

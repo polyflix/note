@@ -8,7 +8,7 @@ export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
   @Get(":id")
-  async find(@Param("id") id: string): Promise<NoteEntity> {
+  async findOne(@Param("id") id: string): Promise<NoteEntity> {
     return this.noteService.findOne(id);
   }
 

@@ -30,7 +30,6 @@ export class NoteRepository implements NoteRepository {
     id: string,
     createNoteDto: CreateNoteDto
   ): Promise<Result<NoteEntity, Error>> {
-    // const note = await this.findOne(id);
     return Result.fromExecution(() => {
       this.logger.log(`Creating/Updating note with id : ${id}`);
       const note = new this.noteModel(createNoteDto);

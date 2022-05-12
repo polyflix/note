@@ -10,7 +10,7 @@ export class NoteEntityMapper extends AbstractMapper<NoteEntity, Note> {
   }
 
   entityToApi(entity: NoteEntity): Note {
-    const note = new Note();
+    const note = Note.create(entity);
     Object.assign(note, entity);
     return note;
   }

@@ -3,6 +3,8 @@ export class NoteResponse {
 
   userId: string;
 
+  videoId: string;
+
   content: string;
 
   createdAt: string;

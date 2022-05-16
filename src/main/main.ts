@@ -1,8 +1,5 @@
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { readFileSync } from "fs";
-import * as yaml from "js-yaml";
-import { join } from "path";
 import { AppModule } from "./app.module";
 import { loadConfiguration } from "./config/loader.config";
 import { logger } from "./config/logger.config";

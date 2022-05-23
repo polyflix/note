@@ -1,4 +1,8 @@
-import { Injectable, Logger } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Option, Result } from "@swan-io/boxed";
 import { Model } from "mongoose";
@@ -26,14 +30,50 @@ export class NoteRepository implements NoteRepository {
     }
   }
 
+  async findByUserAndVideo(
+    videoId: string,
+    userId: string
+  ): Promise<Option<NoteEntity>> {
+    this.logger.log(
+      `Retrieving note created by user ${userId} for video ${videoId}`
+    );
+    try {
+      return Option.fromNullable<NoteEntity>(
+        await this.noteModel.findOne({ userId, videoId })
+      );
+    } catch (e) {
+      this.logger.error(e);
+      return Option.None();
+    }
+  }
+
   async save(
     id: string,
+    videoId: string,
+    userId: string,
     createNoteDto: CreateNoteDto
-  ): Promise<Result<NoteEntity, Error>> {
-    return Result.fromExecution(() => {
-      this.logger.log(`Creating/Updating note with id : ${id}`);
-      const note = new this.noteModel(createNoteDto);
-      note.save();
+  ): Promise<Result<Promise<NoteEntity>, Error>> {
+    return Result.fromExecution(async () => {
+      this.logger.log(
+        id
+          ? `Updating note with id : ${id}`
+          : `Creating new note by user ${userId} for video ${videoId}`
+      );
+      const note = this.noteModel
+        .findOneAndUpdate(
+          id && { _id: id },
+          {
+            videoId,
+            userId,
+            ...createNoteDto
+          },
+          { upsert: true, new: true },
+          (err, doc) => {
+            if (err) throw new InternalServerErrorException(err);
+            return doc;
+          }
+        )
+        .clone();
       return note;
     });
   }

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Put } from "@nestjs/common";
-import { CreateNoteDto } from "../../application/dto/create-note.dto";
+import { UpsertNote } from "src/main/application/dto/upsert-note.dto";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 import { NoteService } from "../service/note.service";
 
@@ -14,9 +14,10 @@ export class NoteController {
 
   @Put(":id?")
   async save(
-    @Body() createNoteDto: CreateNoteDto,
+    @Body() upsertNote: UpsertNote,
     @Param("id") id: string
   ): Promise<NoteEntity> {
-    return this.noteService.save(id, createNoteDto);
+    const { videoId, userId, content } = upsertNote;
+    return this.noteService.save(id, videoId, userId, { content });
   }
 }

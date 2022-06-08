@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Put } from "@nestjs/common";
+import { MeId } from "@polyflix/x-utils";
 import { UpsertNote } from "src/main/application/dto/upsert-note.dto";
 import { NoteEntity } from "../adapters/repositories/entities/note.entity";
 import { NoteService } from "../service/note.service";
@@ -7,17 +8,20 @@ import { NoteService } from "../service/note.service";
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
-  @Get(":id")
-  async findOne(@Param("id") id: string): Promise<NoteEntity> {
-    return this.noteService.findOne(id);
+  @Get("/:videoId")
+  async findOne(
+    @MeId() userId: string,
+    @Param("videoId") videoId: string
+  ): Promise<NoteEntity> {
+    return this.noteService.findOne(videoId, userId);
   }
 
-  @Put(":id?")
+  @Put(":videoId")
   async save(
     @Body() upsertNote: UpsertNote,
-    @Param("id") id: string
+    @Param("videoId") videoId: string,
+    @MeId() userId: string
   ): Promise<NoteEntity> {
-    const { videoId, userId, content } = upsertNote;
-    return this.noteService.save(id, videoId, userId, { content });
+    return this.noteService.save(videoId, userId, upsertNote);
   }
 }

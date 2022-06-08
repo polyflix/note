@@ -1,6 +1,6 @@
 server:
-  port: 5000
-  health: http://localhost:5000/api/v2
+  port: 5001
+  health: http://localhost:5001/api/v2
   
 telemetry:
   port: 4317
@@ -9,7 +9,7 @@ telemetry:
 kafka:
   client:
     clientId: todo-backend
-    brokers: localhost:9092
+    brokers: localhost:29092
   consumer:
     groupId: todo-consumer
     allowAutoTopicCreation: true

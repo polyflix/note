@@ -10,13 +10,7 @@ WORKDIR /home/node
 ENV NODE_ENV production
 COPY --chown=node:node . .
 
-RUN npm config set \
-    @polyflix:registry https://gitlab.polytech.umontpellier.fr/api/v4/projects/1343/packages/npm/ && \
-    npm config set -- \
-    '//gitlab.polytech.umontpellier.fr/api/v4/projects/1343/packages/npm/:_authToken' \
-    "${GITLAB_REGISTRY_TOKEN}" && \
-    npm install && \
-    rm -rf ~/.npm ~/.npmrc
+RUN npm install
 
 USER node
 EXPOSE 5000

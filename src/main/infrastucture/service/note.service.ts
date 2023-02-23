@@ -1,7 +1,5 @@
 import {
-  ConflictException,
   Injectable,
-  NotFoundException
 } from "@nestjs/common";
 import { CreateNoteDto } from "../../application/dto/create-note.dto";
 import { NoteRepository } from "../adapters/repositories/note.repository";
@@ -16,11 +14,11 @@ export class NoteService {
       await this.noteRepository.findByUserAndVideo(videoId, userId)
     ).match({
       Some: (note) => note,
-      None: () => {
-        throw new NotFoundException(
-          `Note not found for video ${videoId} and user ${userId}`
-        );
-      }
+      None: () => ({
+        videoId,
+        userId,
+        content: ""
+      } as NoteEntity)
     });
   }
 

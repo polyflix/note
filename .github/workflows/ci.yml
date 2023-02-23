@@ -15,5 +15,5 @@ jobs:
   note:
     uses: polyflix/.github/.github/workflows/node-ci.yml@main
     with:
-      package-migration: true
+      package-migration: false
     secrets: inherit
